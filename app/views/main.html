@@ -1,0 +1,23 @@
+<div class="alert alert-danger" ng-show="error!=undefined">
+  <button type="button" class="close" ng-click="error=undefined"><span>&times;</span>
+  </button>
+  {{error}}
+</div>
+
+<div class="container">
+  <div class="row">
+    <div ng-repeat="brick in bricks">
+      <!-- Image -->
+      <div class="col-md-4" ng-if="brick.type == BRICK_TYPE.Image">
+        <h3>{{brick.name}}</h3>
+        <img class="myImage" ng-src="{{brick.url}}"/>
+      </div>
+      <!-- File -->
+      <div class="col-md-4" ng-if="brick.type == BRICK_TYPE.File">
+        <h3>{{brick.name}}</h3>
+        <h5>{{brick.path}}</h5>
+        <textarea class="myTextArea">{{brick.content}}</textarea>
+      </div>
+    </div>
+  </div>
+</div>

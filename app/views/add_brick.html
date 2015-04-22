@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading text-center">Add Brick</div>
+    <div class="panel-body">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <div class="panel-default">
+              <div class="panel-body">
+                <!-- File Brick-->
+                <form name="fileBrickForm" role="form" novalidate>
+                  <fieldset>
+                    <div class="form-group">
+                      <input class="form-control" placeholder="Name" ng-model="fileBrick.name" name="name" type="text" />
+                    </div>
+                    <div class="form-group">
+                      <input class="form-control" placeholder="Path" ng-model="fileBrick.path" name="path" type="text" />
+                    </div>
+                    <div class="form-group">
+                      <div class="col-md-8">
+                        <button type="submit" class="btn btn-default btn-success" ng-click="add()">Add Brick</button>
+                        <button type="submit" class="btn btn-default" ng-click="cancel()">Cancel</button>
+                      </div>
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

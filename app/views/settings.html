@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <button type="submit" class="btn btn-default btn-success" ng-click="add()">Add Brick</button>
+    </div>
+    <!-- /input-group -->
+    <br>
+  </div>
+  <div class="row">
+    <br>
+  </div>
+  <div class="row">
+    <div class="table-responsive">
+      <table class="table">
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th></th>
+        </tr>
+        <tr ng-repeat="brick in bricks">
+          <td>{{brick.name}}</td>
+          <td>{{brick.type}}</td>
+          <td>
+            <button type="button" class="btn btn-default btn-xs btn-danger" ng-click="remove($index)">
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
