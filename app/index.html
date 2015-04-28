@@ -22,18 +22,7 @@
 
     <!-- Add your site or application content here -->
     <div class="container">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li><a ng-href="#/settings">Settings</a></li>
-        </ul>
-        <h3 class="text-muted"><a ng-href="#/">Bricks</a></h3>
-      </div>
-
       <div ng-view=""></div>
-
-      <div class="footer">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-      </div>
     </div>
 
 
@@ -66,6 +55,7 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-apimock/dist/angular-apimock.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -76,6 +66,9 @@
         <script src="scripts/services/client.js"></script>
         <script src="scripts/controllers/add_brick.js"></script>
         <script src="scripts/services/settings-service.js"></script>
+        <script src="scripts/services/authinterceptor.js"></script>
+        <script src="scripts/services/brick-factory.js"></script>
+        <script src="scripts/services/pipe-service.js"></script>
         <!-- endbuild -->
 </body>
 </html>

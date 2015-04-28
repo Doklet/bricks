@@ -1,22 +1,42 @@
+<div class="header">
+  <ul class="nav nav-pills pull-right">
+    <li><a ng-href="#/settings">Settings</a></li>
+  </ul>
+  <h3 class="text-muted"><a ng-href="#/">Bricks</a></h3>
+</div>
 <div class="alert alert-danger" ng-show="error!=undefined">
   <button type="button" class="close" ng-click="error=undefined"><span>&times;</span>
   </button>
   {{error}}
 </div>
-
 <div class="container">
-  <div class="row">
+  <div class="row" ng-if="state == SETTINGS_STATE.Loading">
+    <p>Loading</p>
+  </div>
+  <div class="row" ng-if="state == SETTINGS_STATE.NoBricksAvailable">
+    <p>Welcome to go settings</p>
+  </div>
+  <div class="row" ng-if="state == SETTINGS_STATE.Completed">
     <div ng-repeat="brick in bricks">
-      <!-- Image -->
-      <div class="col-md-4" ng-if="brick.type == BRICK_TYPE.Image">
-        <h3>{{brick.name}}</h3>
-        <img class="myImage" ng-src="{{brick.url}}"/>
-      </div>
       <!-- File -->
-      <div class="col-md-4" ng-if="brick.type == BRICK_TYPE.File">
-        <h3>{{brick.name}}</h3>
-        <h5>{{brick.path}}</h5>
-        <textarea class="myTextArea">{{brick.content}}</textarea>
+      <div class="col-md-4" ng-if="brick.data.type == BRICK_TYPE.File">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="btn-group btn-group-sm pull-right">
+              <button type="button" class="btn btn-default" ng-click="reloadContent(brick)">
+                <span class="glyphicon glyphicon-refresh"></span>
+              </button>             
+              <button type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </button>
+            </div>
+            <h4>{{brick.data.name}}</h4>
+            <h4><small>{{brick.data.path}}</small></h4>
+          </div>
+          <p class="text-center" ng-if="brick.state == BRICK_STATE.Created">Not Loaded</p>
+          <p class="text-center" ng-if="brick.state == BRICK_STATE.Loading">Loading content, please wait</p>
+          <textarea class="myTextArea" ng-if="brick.state == BRICK_STATE.Completed" rows="20">{{brick.content}}</textarea>
+        </div>
       </div>
     </div>
   </div>

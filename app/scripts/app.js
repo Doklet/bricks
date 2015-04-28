@@ -27,3 +27,7 @@ angular.module('bricksApp', [
         redirectTo: '/'
       });
   });
+
+angular.module('bricksApp').config(function($httpProvider) {
+  $httpProvider.interceptors.push('AuthInterceptor');
+});

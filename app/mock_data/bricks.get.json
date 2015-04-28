@@ -1,0 +1,11 @@
+[{
+  "id": "0",
+  "name": "FileBrick",
+  "type": "File",
+  "path": "Server1/root/path"
+}, {
+  "id": "1",
+  "name": "FileBrick1",
+  "type": "File",
+  "path": "Server1/root/path/2"
+}]

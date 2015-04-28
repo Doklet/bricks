@@ -9,6 +9,7 @@ angular.module('bricksApp')
 
       // Get the bricks in the bucket data with the key bricks
       return $http.get('/api/doclet/' + docletId + '/bucket/data/bricks');
+      //return $http.get('/api/bricks');
     };
 
     this.saveBricks = function(bricks) {
