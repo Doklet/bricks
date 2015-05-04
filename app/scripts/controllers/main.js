@@ -26,7 +26,14 @@ angular.module('bricksApp')
 
     // The type of bricks
     $scope.BRICK_TYPE = {
-      File: 'File'
+      Text: 'Text',
+      Table: 'Table',
+      Image: 'Image',
+      Chart: 'Chart'
+    };
+
+    $scope.keys = function(obj) {
+      return obj ? Object.keys(obj) : [];
     };
 
     $scope.init = function() {
@@ -80,7 +87,7 @@ angular.module('bricksApp')
         var brick = {
           data: data,
           state: $scope.BRICK_STATE.Created,
-          content: 'Hello'
+          content: []
         };
 
         _bricks.push(brick);
@@ -93,7 +100,13 @@ angular.module('bricksApp')
 
       brick.state = $scope.BRICK_STATE.Loading;
 
-      PipeService.run(undefined, brick.data.path)
+      // If this is a image no need to run any pipe, just return here
+      if (brick.data.type === $scope.BRICK_TYPE.Image) {
+        brick.state = $scope.BRICK_STATE.Completed;
+        return;
+      }
+
+      PipeService.run(brick.data.commands, brick.data.path)
         .success(function(content) {
           brick.state = $scope.BRICK_STATE.Completed;
 
@@ -106,5 +119,52 @@ angular.module('bricksApp')
         });
     };
 
+    $scope.imagePathOfBrick = function(brick) {
+      return '/api/file/' + brick.data.path + '?token=' + Client.getSessionId();
+    };
+
+    $scope.options = {
+      renderer: 'area'
+    };
+
+    $scope.series = [{
+      name: 'Series 1',
+      color: 'steelblue',
+      data: [{
+        x: 0,
+        y: 23
+      }, {
+        x: 1,
+        y: 15
+      }, {
+        x: 2,
+        y: 79
+      }, {
+        x: 3,
+        y: 31
+      }, {
+        x: 4,
+        y: 60
+      }]
+    }, {
+      name: 'Series 2',
+      color: 'lightblue',
+      data: [{
+        x: 0,
+        y: 30
+      }, {
+        x: 1,
+        y: 20
+      }, {
+        x: 2,
+        y: 64
+      }, {
+        x: 3,
+        y: 50
+      }, {
+        x: 4,
+        y: 15
+      }]
+    }];
 
   });

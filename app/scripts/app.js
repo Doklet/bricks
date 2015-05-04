@@ -23,9 +23,25 @@ angular.module('bricksApp', [
         templateUrl: 'views/add_brick.html',
         controller: 'AddBrickCtrl'
       })
-      .otherwise({
-        redirectTo: '/'
-      });
+      .when('/new_text_brick', {
+        templateUrl: 'views/new_text_brick.html',
+        controller: 'NewBrickCtrl'
+      })
+      .when('/new_table_brick', {
+        templateUrl: 'views/new_table_brick.html',
+        controller: 'NewBrickCtrl'
+      })
+      .when('/new_image_brick', {
+        templateUrl: 'views/new_image_brick.html',
+        controller: 'NewBrickCtrl'
+      })
+      .when('/new_chart_brick', {
+        templateUrl: 'views/new_chart_brick.html',
+        controller: 'NewBrickCtrl'
+      })
+    .otherwise({
+      redirectTo: '/'
+    });
   });
 
 angular.module('bricksApp').config(function($httpProvider) {

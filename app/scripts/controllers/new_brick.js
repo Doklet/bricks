@@ -1,22 +1,26 @@
 'use strict';
 
+// Use the same controller for all new brick views
 angular.module('bricksApp')
-  .controller('AddBrickCtrl', function($scope, $location, Client, SettingsService) {
+  .controller('NewBrickCtrl', function($scope, $location, Client, SettingsService) {
 
-    var BRICK_TYPE = {
-      File: 'File'
+    $scope.BRICK_TYPE = {
+      Text: 'Text',
+      Table: 'Table',
+      Image: 'Image',
+      Chart: 'Chart'
     };
 
-    $scope.fileBrick = {
+    $scope.brick = {
       name: undefined,
       path: undefined,
       commands: undefined,
-      type: BRICK_TYPE.File
+      type: undefined
     };
 
     $scope.add = function() {
 
-      Client.addBrick($scope.fileBrick);
+      Client.addBrick($scope.brick);
 
       SettingsService.saveBricks(Client.getBricks())
         .success(function() {
@@ -30,5 +34,4 @@ angular.module('bricksApp')
     $scope.cancel = function() {
       $location.path('/settings');
     };
-
   });
