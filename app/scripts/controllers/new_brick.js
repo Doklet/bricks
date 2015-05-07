@@ -2,7 +2,7 @@
 
 // Use the same controller for all new brick views
 angular.module('bricksApp')
-  .controller('NewBrickCtrl', function($scope, $location, Client, SettingsService) {
+  .controller('NewBrickCtrl', function($scope, $location, ModalService, Client, SettingsService) {
 
     $scope.BRICK_TYPE = {
       Text: 'Text',
@@ -34,4 +34,26 @@ angular.module('bricksApp')
     $scope.cancel = function() {
       $location.path('/settings');
     };
+
+    $scope.browseFile = function() {
+      // Just provide a template url, a controller and call 'showModal'.
+      ModalService.showModal({
+        templateUrl: 'views/filedialog.html',
+        controller: 'FiledialogCtrl',
+        inputs: {
+          dialogType: 'file',
+          dialogTitle: 'Select file'
+        }
+      }).then(function(modal) {
+        // The modal object has the element built, if this is a bootstrap modal
+        // you can call 'modal' to show it, if it's a custom modal just show or hide
+        // it as you need to.
+        modal.element.modal();
+        modal.close.then(function(absfilename) {
+
+          $scope.brick.path = absfilename;
+        });
+      });
+    };
+
   });

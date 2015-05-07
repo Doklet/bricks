@@ -7,7 +7,8 @@ angular.module('bricksApp', [
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'apiMock'
+    'apiMock',
+    'angularModalService'
   ])
   .config(function($routeProvider) {
     $routeProvider
