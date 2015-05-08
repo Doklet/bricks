@@ -1,8 +1,12 @@
-<div class="header">
-  <ul class="nav nav-pills pull-right">
-    <li><a ng-href="#/settings">Settings</a></li>
-  </ul>
-  <h3 class="text-muted"><a ng-href="#/">Bricks</a></h3>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="header">
+      <ul class="nav nav-pills pull-right">
+        <li><a ng-href="#/settings">Settings</a></li>
+      </ul>
+      <h3 class="text-muted">Bricks</h3>
+    </div>
+  </div>
 </div>
 <div class="alert alert-danger" ng-show="error!=undefined">
   <button type="button" class="close" ng-click="error=undefined"><span>&times;</span>
@@ -14,7 +18,14 @@
     <p>Loading</p>
   </div>
   <div class="row" ng-if="state == SETTINGS_STATE.NoBricksAvailable">
-    <p>Welcome to go settings</p>
+    <div class="jumbotron text-center">
+      <div class="container">
+        <h1>Welcome</h1>
+        <p>Here the brick of your content will be shown</p>
+        <p>Head over to settings to create the bricks you want</p>
+        <p><a ng-href="#/settings" class="btn btn-primary" role="button">Go To Settings &raquo;</a></p>
+      </div>
+    </div>
   </div>
   <div class="row" ng-if="state == SETTINGS_STATE.Completed">
     <div ng-repeat="brick in bricks">
