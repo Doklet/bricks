@@ -32,6 +32,20 @@ angular.module('bricksApp')
       Chart: 'Chart'
     };
 
+    $scope.chartConfig = {
+      options: {
+        chart: {
+          type: 'line'
+        }
+      },
+      series: [{
+        data: [10, 15, 12, 8, 7]
+      }],
+      title: {
+        text: ''
+      }
+    };
+
     $scope.keys = function(obj) {
       return obj ? Object.keys(obj) : [];
     };

@@ -1,0 +1,13 @@
+{
+  "options": {
+    "chart": {
+      "type": "line"
+    }
+  },
+  "series": [{
+    "data": [10, 15, 12, 8, 7]
+  }],
+  "title": {
+    "text": ""
+  }
+}

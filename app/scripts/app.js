@@ -8,7 +8,8 @@ angular.module('bricksApp', [
     'ngSanitize',
     'ngTouch',
     'apiMock',
-    'angularModalService'
+    'angularModalService',
+    'highcharts-ng'
   ])
   .config(function($routeProvider) {
     $routeProvider

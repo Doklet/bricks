@@ -73,6 +73,8 @@
             </div>
             <!-- Image brick -->
             <img ng-if="brick.data.type == BRICK_TYPE.Image" ng-src="{{imagePathOfBrick(brick)}}" width="100%" height="100%">
+            <!-- Chart brick -->
+            <highchart ng-if="brick.data.type == BRICK_TYPE.Chart" config="brick.content"></highchart>
           </div>
         </div>
       </div>
