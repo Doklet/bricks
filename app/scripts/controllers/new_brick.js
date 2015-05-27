@@ -20,14 +20,14 @@ angular.module('bricksApp')
 
     $scope.add = function() {
 
-      Client.addBrick($scope.brick);
-
-      SettingsService.saveBricks(Client.getBricks())
-        .success(function() {
+      SettingsService.saveBrick($scope.brick)
+        .success(function(brickDTO) {
+          // Create a runtime brick here then add it to the client
+          Client.addBrick(brickDTO);
           $location.path('/settings');
         })
         .error(function() {
-          $scope.error = 'Failed to save bricks';
+          $scope.error = 'Failed to save brick';
         });
     };
 

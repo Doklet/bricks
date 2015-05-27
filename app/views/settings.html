@@ -46,8 +46,8 @@
           <th></th>
         </tr>
         <tr ng-repeat="brick in bricks">
-          <td>{{brick.name}}</td>
-          <td>{{brick.type}}</td>
+          <td>{{brick.data.name}}</td>
+          <td>{{brick.data.type}}</td>
           <td>
             <button type="button" class="btn btn-default btn-xs btn-danger" ng-click="remove($index)">
               <span class="glyphicon glyphicon-remove"></span>

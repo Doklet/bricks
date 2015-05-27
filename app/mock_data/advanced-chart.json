@@ -56,9 +56,6 @@
   "title": {
     "text": "Hello"
   },
-  "credits": {
-    "enabled": true
-  },
   "loading": false,
   "size": {}
 }

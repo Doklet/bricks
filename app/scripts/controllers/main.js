@@ -50,6 +50,18 @@ angular.module('bricksApp')
       return obj ? Object.keys(obj) : [];
     };
 
+    $scope.values = function(obj) {
+      var values = [];
+      var keys = $scope.keys(obj);
+
+      for (var i = 0; i < keys.length; i++) {
+        var key = keys[i];
+        values.push(obj[key]);
+      }
+
+      return values;
+    };
+
     $scope.init = function() {
 
       // Save doclet id and session id in client.
@@ -63,52 +75,42 @@ angular.module('bricksApp')
         Client.setSessionId($window.unescape(sessionId));
       }
 
-      // Show the loading div
-      $scope.state = $scope.SETTINGS_STATE.Loading;
+      if (!Client.hasBricks()) {
 
-      SettingsService.getBricks()
-        .success(function(bricks) {
+        // Show the loading div
+        $scope.state = $scope.SETTINGS_STATE.Loading;
 
-          Client.setBricks(bricks);
+        SettingsService.getBricks()
+          .success(function(brickDTOs) {
 
-          $scope.bricks = $scope.createRuntimeBricks(bricks);
+            //$scope.bricks = $scope.createRuntimeBricks(dataBricks);
 
-          // Show the normal bricks layout div
-          $scope.state = $scope.SETTINGS_STATE.Completed;
-        })
-        .error(function(response, status) {
-          // The first time there is no saved settings, so a 404 is expected here
-          if (status === 404) {
-            // Show the welcome div since no brick has been created
-            $scope.state = $scope.SETTINGS_STATE.NoBricksAvailable;
-          } else {
-            $scope.error = 'Failed to fetch bricks';
-          }
-        });
+            Client.setBricks($scope.values(brickDTOs));
+
+            $scope.bricks = Client.getBricks();
+
+            // Show the normal bricks layout div
+            $scope.state = $scope.SETTINGS_STATE.Completed;
+          })
+          .error(function(response, status) {
+            // The first time there is no saved settings, so a 404 is expected here
+            if (status === 404) {
+              // Show the welcome div since no brick has been created
+              $scope.state = $scope.SETTINGS_STATE.NoBricksAvailable;
+            } else {
+              $scope.error = 'Failed to fetch bricks';
+            }
+          });
+
+      } else {
+        $scope.bricks = Client.getBricks();
+        $scope.state = $scope.SETTINGS_STATE.Completed;
+      }
 
     };
 
     // Invoke init to fetch the needed data
     $scope.init();
-
-    $scope.createRuntimeBricks = function(dataBricks) {
-
-      var _bricks = [];
-
-      for (var i = 0; i < dataBricks.length; i++) {
-
-        var data = dataBricks[i];
-        var brick = {
-          data: data,
-          state: $scope.BRICK_STATE.Created,
-          content: []
-        };
-
-        _bricks.push(brick);
-      }
-
-      return _bricks;
-    };
 
     $scope.reloadContent = function(brick) {
 

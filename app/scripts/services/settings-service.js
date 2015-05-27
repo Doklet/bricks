@@ -8,7 +8,7 @@ angular.module('bricksApp')
       var docletId = Client.getDocletId();
 
       // Get the bricks in the bucket data with the key bricks
-      return $http.get('/api/doclet/' + docletId + '/bucket/data/bricks');
+      return $http.get('/api/doclet/' + docletId + '/bucket/brick');
       //return $http.get('/api/bricks');
     };
 
@@ -18,6 +18,16 @@ angular.module('bricksApp')
 
       // Save the bricks in the bucket data with the key bricks
       return $http.put('/api/doclet/' + docletId + '/bucket/data/bricks', bricks);
+    };
+
+    this.saveBrick = function(brick) {
+
+      var docletId = Client.getDocletId();
+
+      var name = brick.name;
+
+      // Save the brick in the bucket brick with the name of the brick as the name
+      return $http.put('/api/doclet/' + docletId + '/bucket/brick/' + name, brick);
     };
 
   });
