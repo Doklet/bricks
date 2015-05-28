@@ -1,13 +1,13 @@
-<div class="panel panel-default">
-  <div class="panel-body">
-    <div class="header">
-      <ul class="nav nav-pills pull-right">
+<nav class="navbar navbar-default navbar-static-top bricks-navbar">
+  <div class="container">
+      <ul class="nav navbar-nav pull-right">
         <li><a ng-href="#/settings">Settings</a></li>
+        <li><a> </a></li>
       </ul>
-      <h3 class="text-muted">Bricks</h3>
+      <h3 class="text-muted">{{name}}</h3>
     </div>
   </div>
-</div>
+</nav>
 <div class="alert alert-danger" ng-show="error!=undefined">
   <button type="button" class="close" ng-click="error=undefined"><span>&times;</span>
   </button>

@@ -24,26 +24,15 @@ angular.module('bricksApp')
       Completed: 2
     };
 
+    // The name of the brick
+    $scope.name = 'Bricks';
+
     // The type of bricks
     $scope.BRICK_TYPE = {
       Text: 'Text',
       Table: 'Table',
       Image: 'Image',
       Chart: 'Chart'
-    };
-
-    $scope.chartConfig = {
-      options: {
-        chart: {
-          type: 'line'
-        }
-      },
-      series: [{
-        data: [10, 15, 12, 8, 7]
-      }],
-      title: {
-        text: ''
-      }
     };
 
     $scope.keys = function(obj) {
@@ -64,7 +53,7 @@ angular.module('bricksApp')
 
     $scope.init = function() {
 
-      // Save doclet id and session id in client.
+      // Save doclet id, name and session id in client.
       var docletId = $location.search().docletId;
       if (docletId !== undefined) {
         Client.setDocletId($window.unescape(docletId));
@@ -74,6 +63,13 @@ angular.module('bricksApp')
       if (sessionId !== undefined) {
         Client.setSessionId($window.unescape(sessionId));
       }
+
+      var docletName = $location.search().docletName;
+      if (docletName !== undefined) {
+        Client.setName(docletName);
+      }
+      $scope.name = Client.getName();
+
 
       if (!Client.hasBricks()) {
 
@@ -138,49 +134,5 @@ angular.module('bricksApp')
     $scope.imagePathOfBrick = function(brick) {
       return '/api/file/' + brick.data.path + '?token=' + Client.getSessionId();
     };
-
-    $scope.options = {
-      renderer: 'area'
-    };
-
-    $scope.series = [{
-      name: 'Series 1',
-      color: 'steelblue',
-      data: [{
-        x: 0,
-        y: 23
-      }, {
-        x: 1,
-        y: 15
-      }, {
-        x: 2,
-        y: 79
-      }, {
-        x: 3,
-        y: 31
-      }, {
-        x: 4,
-        y: 60
-      }]
-    }, {
-      name: 'Series 2',
-      color: 'lightblue',
-      data: [{
-        x: 0,
-        y: 30
-      }, {
-        x: 1,
-        y: 20
-      }, {
-        x: 2,
-        y: 64
-      }, {
-        x: 3,
-        y: 50
-      }, {
-        x: 4,
-        y: 15
-      }]
-    }];
 
   });

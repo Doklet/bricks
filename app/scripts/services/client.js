@@ -15,6 +15,7 @@ angular.module('bricksApp')
       Completed: 2
     };
 
+    var _name;
     var _sessionId;
     var _docletId;
     var _bricks;
@@ -22,6 +23,16 @@ angular.module('bricksApp')
     this.reset = function() {
       _sessionId = undefined;
       _bricks = [];
+    };
+
+    this.setName = function(name) {
+      if (name !== undefined) {
+        _name = name;
+      }
+    };
+
+    this.getName = function() {
+      return _name;
     };
 
     this.setSessionId = function(sessionId) {

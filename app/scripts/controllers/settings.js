@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('bricksApp')
-  .controller('SettingsCtrl', function($scope, $location, Client) {
+  .controller('SettingsCtrl', function($scope, $location, Client, SettingsService) {
 
     $scope.bricks = Client.getBricks();
+    $scope.name = Client.getName();
 
     $scope.add = function() {
       $location.path('/add_brick');
@@ -11,18 +12,41 @@ angular.module('bricksApp')
 
     $scope.done = function() {
       $location.path('/');
-
-      // SettingsService.saveBricks(Client.getBricks())
-      //   .success(function() {
-      //     $location.path('/');
-      //   })
-      //   .error(function() {
-      //     $scope.error = 'Failed to save bricks';
-      //   });
     };
 
-    $scope.remove = function(index) {
-      Client.removeBrick(index);
+    $scope.remove = function(brick, index) {
+      SettingsService.deleteBrick(brick)
+        .success(function() {
+          // Remove brick
+          Client.removeBrick(index);
+        })
+        .error(function() {
+          $scope.error = 'Failed to delete bricks';
+        });
+    };
+
+    $scope.edit = function(brick) {
+      brick.$edit = true;
+      brick.$name = brick.data.name;
+      brick.$description = brick.data.description;
+    };
+
+    $scope.update = function(brick) {
+      brick.data.name = brick.$name;
+      brick.data.description = brick.$description;
+      brick.$edit = false;
+
+      SettingsService.saveBrick(brick.data)
+        .success(function() {
+          // TODO show info here
+        })
+        .error(function() {
+          $scope.error = 'Failed to delete bricks';
+        });
+    };
+
+    $scope.cancel = function(brick) {
+      brick.$edit = false;
     };
 
   });

@@ -1,13 +1,13 @@
-<div class="panel panel-default">
-  <div class="panel-body">
-    <div class="header">
-      <ul class="nav nav-pills pull-right">
-        <li><a ng-click="done()">Done</a></li>
+<nav class="navbar navbar-default navbar-static-top bricks-navbar"> 
+  <div class="container">
+      <ul class="nav navbar-nav pull-right">
+        <li><a ng-href="#/">Back</a></li>
+        <li><a> </a></li>
       </ul>
-      <h3 class="text-muted">Bricks</h3>
+      <h3 class="text-muted">{{name}}</h3>
     </div>
   </div>
-</div>
+</nav>
 <div class="alert alert-danger" ng-show="error!=undefined">
   <button type="button" class="close" ng-click="error=undefined"><span>&times;</span>
   </button>
@@ -40,16 +40,40 @@
   <div class="row">
     <div class="table-responsive">
       <table class="table">
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th></th>
-        </tr>
-        <tr ng-repeat="brick in bricks">
-          <td>{{brick.data.name}}</td>
-          <td>{{brick.data.type}}</td>
+        <tr ng-repeat="brick in bricks" ng-init="brick.$edit=false">
           <td>
-            <button type="button" class="btn btn-default btn-xs btn-danger" ng-click="remove($index)">
+            <!-- View mode -->
+            <dl ng-show="brick.$edit==false">
+              <dt>{{brick.data.name}}</dt>
+              <dd>{{brick.data.type}}</dd>
+              <dd>{{brick.data.description}}</dd>
+            </dl>
+            <!-- Edit mode -->
+            <form ng-show="brick.$edit==true" class="form-horizontal" role="form">
+              <div class="form-group">
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" ng-model="brick.$name">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-10">
+                  <textarea class="form-control" ng-model="brick.$description" placeholder="Enter some description here"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-10">
+                  <button type="submit" class="btn btn-default btn-primary" ng-click="update(brick)">Update</button>
+                  <button type="submit" class="btn btn-default" ng-click="cancel(brick)">Cancel</button>
+                </div>
+              </div>
+            </form>
+          </td>
+          <!-- Only show in view mode -->
+          <td ng-show="brick.$edit==false">
+            <button type="button" class="btn btn-default btn-xs btn-default" ng-click="edit(brick)">
+              <span class="glyphicon glyphicon-edit"></span>
+            </button>
+            <button type="button" class="btn btn-default btn-xs btn-danger" ng-click="remove(brick, $index)">
               <span class="glyphicon glyphicon-remove"></span>
             </button>
           </td>

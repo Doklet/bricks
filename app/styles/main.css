@@ -17,3 +17,7 @@ body {
   resize: vertical;
   width: 100%;
 }
+
+.bricks-navbar {
+	background-color: white;
+}
