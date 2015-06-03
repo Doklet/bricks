@@ -40,7 +40,7 @@
   <div class="row">
     <div class="table-responsive">
       <table class="table">
-        <tr ng-repeat="brick in bricks" ng-init="brick.$edit=false">
+        <tr ng-repeat="brick in bricks | orderBy:'data.name'" ng-init="brick.$edit=false">
           <td>
             <!-- View mode -->
             <dl ng-show="brick.$edit==false">

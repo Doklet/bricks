@@ -15,10 +15,12 @@ angular.module('bricksApp')
     };
 
     $scope.remove = function(brick, index) {
+      
+      // Remove brick
+      Client.removeBrick(index);
+
       SettingsService.deleteBrick(brick)
         .success(function() {
-          // Remove brick
-          Client.removeBrick(index);
         })
         .error(function() {
           $scope.error = 'Failed to delete bricks';

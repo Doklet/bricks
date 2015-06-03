@@ -21,7 +21,7 @@
 
         <!-- Account view-->
         <table class="table table-hover" ng-if="breadcrumbPath.length==1">
-          <tr ng-repeat="account in accounts" ng-if="account.provider!='local'" ng-click="accountSelected(account)" ng-class="{ 'active' : account === selected.account }">
+          <tr ng-repeat="account in accounts | orderBy:'name'" ng-if="account.provider!='local'" ng-click="accountSelected(account)" ng-class="{ 'active' : account === selected.account }">
             <td>
               <dl>
                 <dt>{{account.name}}</dt>

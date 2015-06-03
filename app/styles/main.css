@@ -9,6 +9,12 @@ body {
   height: 100%;
 }
 
+/* Custom container */
+.bricks-container-full {
+  margin: 0 auto;
+  width: 100%;
+}
+
 .myImage {
   width: 100%
 }
