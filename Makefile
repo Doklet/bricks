@@ -33,7 +33,7 @@ distro: distro-clean
 	# Change the name back to dist
 	-mv root dist
 
-deploy: distro
+deploy: build distro
 	# Ensure the distro exist
 	ls distro/$(name).zip
 	# Copy the distro to production
