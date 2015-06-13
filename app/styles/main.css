@@ -27,3 +27,8 @@ body {
 .bricks-navbar {
 	background-color: white;
 }
+
+/* Edit modes */
+.background-edit {
+  background-color: #FFF5CF;
+}
