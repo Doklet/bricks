@@ -6,10 +6,17 @@ angular.module('bricksApp')
     return {
       request: function(config) {
         config.headers = config.headers || {};
+
         var token = Client.getSessionId('Token');
         if (token) {
           config.headers.Authorization = 'Token ' + token;
         }
+
+        var docletId = Client.getDocletId();
+        if (docletId) {
+          config.headers.SkyraidId = docletId;
+        }
+
         return config;
       },
 
