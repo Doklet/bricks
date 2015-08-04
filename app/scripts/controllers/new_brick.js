@@ -18,6 +18,8 @@ angular.module('bricksApp')
       type: undefined
     };
 
+    $scope.name = Client.getName();
+
     $scope.add = function() {
 
       SettingsService.saveBrick($scope.brick)

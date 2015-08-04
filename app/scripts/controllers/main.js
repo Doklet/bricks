@@ -4,6 +4,14 @@
 angular.module('bricksApp')
   .controller('MainCtrl', function($scope, $window, $location, Client, SettingsService, PipeService) {
 
+    // The modes this app
+    $scope.MODES = {
+      // Only view is allowed
+      View: 0,
+      // Allowed to perform edit, launched by the owner
+      Edit: 1
+    };
+
     // The state of the progress of setting up the bricks
     $scope.SETTINGS_STATE = {
       // Loading from server
@@ -24,9 +32,6 @@ angular.module('bricksApp')
       Completed: 2
     };
 
-    // The name of the brick
-    $scope.name = 'Bricks';
-
     // The type of bricks
     $scope.BRICK_TYPE = {
       Text: 'Text',
@@ -34,6 +39,10 @@ angular.module('bricksApp')
       Image: 'Image',
       Chart: 'Chart'
     };
+
+    // Default properties
+    $scope.name = 'Bricks';
+    $scope.mode = $scope.MODES.View;
 
     $scope.keys = function(obj) {
       return obj ? Object.keys(obj) : [];
@@ -64,6 +73,11 @@ angular.module('bricksApp')
         Client.setSessionId($window.unescape(sessionId));
       }
 
+      // If there is a session set in edit mode
+      if (Client.getSessionId() !== undefined) {
+        $scope.mode = $scope.MODES.Edit;
+      }
+
       var docletName = $location.search().docletName;
       if (docletName !== undefined) {
         Client.setName(docletName);
@@ -87,6 +101,10 @@ angular.module('bricksApp')
 
             // Show the normal bricks layout div
             $scope.state = $scope.SETTINGS_STATE.Completed;
+
+            // Reload all the bricks
+            $scope.reloadAllContent($scope.bricks);
+
           })
           .error(function(response, status) {
             // The first time there is no saved settings, so a 404 is expected here
@@ -107,6 +125,16 @@ angular.module('bricksApp')
 
     // Invoke init to fetch the needed data
     $scope.init();
+
+    $scope.reloadAllContent = function(bricks) {
+      // Reload the content of all the bricks
+      for (var i = 0; i < bricks.length; i++) {
+        // Fetch the brick
+        var brick = bricks[i];
+        // Reload the content
+        $scope.reloadContent(brick);
+      }
+    };
 
     $scope.reloadContent = function(brick) {
 

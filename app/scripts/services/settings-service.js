@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bricksApp')
-  .service('SettingsService', function($http, Client) {
+  .service('SettingsService', function($http, rfc4122, Client) {
 
     this.getBricks = function() {
 
@@ -24,20 +24,21 @@ angular.module('bricksApp')
 
       var docletId = Client.getDocletId();
 
-      var name = dataBrick.name;
+      var id = rfc4122.v4();
 
-      // Save the brick in the bucket brick with the name of the brick as the name
-      return $http.put('/api/doclet/' + docletId + '/bucket/brick/' + name, dataBrick);
+      dataBrick.id = id;
+
+      return $http.put('/api/doclet/' + docletId + '/bucket/brick/' + id, dataBrick);
     };
 
     this.deleteBrick = function(brick) {
 
       var docletId = Client.getDocletId();
 
-      var name = brick.data.name;
+      var id = brick.data.id;
 
       // Save the brick in the bucket brick with the name of the brick as the name
-      return $http.delete('/api/doclet/' + docletId + '/bucket/brick/' + name);
+      return $http.delete('/api/doclet/' + docletId + '/bucket/brick/' + id);
     };
 
   });
