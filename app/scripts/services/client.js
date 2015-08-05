@@ -76,11 +76,11 @@ angular.module('bricksApp')
     };
 
     this.addBrick = function(brickDTO) {
-      if (_bricks === undefined) {
-        _bricks = undefined;
-      }
+      var brick =  this.createRuntimeBrick(brickDTO);
 
-      _bricks.push(this.createRuntimeBrick(brickDTO));
+      _bricks.push(brick);
+
+      return brick;
     };
 
     this.removeBrick = function(brickToRemove) {

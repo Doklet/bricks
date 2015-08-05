@@ -39,6 +39,18 @@ angular.module('bricksApp')
       Chart: 'Chart'
     };
 
+    $scope.BRICK_TEMPLATES = [{
+      name: 'Text file',
+      type: $scope.BRICK_TYPE.Text,
+      description: 'Add a text file'
+    }, {
+      name: 'CSV File',
+      type: $scope.BRICK_TYPE.Table,
+      commands: 'csv',
+      description: 'Add a csv file'
+    }];
+
+
     // Default properties
     $scope.name = 'Bricks';
     $scope.mode = $scope.MODES.View;
@@ -161,7 +173,7 @@ angular.module('bricksApp')
     };
 
     $scope.imagePathOfBrick = function(brick) {
-      
+
       if (Client.getSessionId() !== undefined) {
         return '/api/file/' + brick.data.path + '?token=' + Client.getSessionId();
       } else if (Client.getDocletId() !== undefined) {
@@ -223,6 +235,27 @@ angular.module('bricksApp')
         })
         .error(function() {
           $scope.error = 'Failed to delete bricks';
+        });
+    };
+
+    $scope.addFromTemplate = function(template) {
+
+      // Create a new brick
+      var toCreate = {
+          type: template.type,
+          name: 'New ' + template.type,
+          commands: template.commands
+      };
+
+      // Save the brick
+      SettingsService.saveBrick(toCreate)
+        .success(function(data) {
+          var createdBrick = Client.addBrick(data);
+
+          $scope.edit(createdBrick);
+        })
+        .error(function() {
+          $scope.error = 'Failed to save brick';
         });
     };
 
