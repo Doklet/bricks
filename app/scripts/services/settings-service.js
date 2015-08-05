@@ -20,15 +20,16 @@ angular.module('bricksApp')
       return $http.put('/api/doclet/' + docletId + '/bucket/data/bricks', bricks);
     };
 
-    this.saveBrick = function(dataBrick) {
+    this.saveBrick = function(brick) {
 
       var docletId = Client.getDocletId();
 
-      var id = rfc4122.v4();
+      // Generate a id of it dosent exist
+      if (brick.id === undefined) {
+        brick.id = rfc4122.v4();
+      }
 
-      dataBrick.id = id;
-
-      return $http.put('/api/doclet/' + docletId + '/bucket/brick/' + id, dataBrick);
+      return $http.put('/api/doclet/' + docletId + '/bucket/brick/' + brick.id, brick);
     };
 
     this.deleteBrick = function(brick) {

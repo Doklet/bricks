@@ -14,13 +14,12 @@ angular.module('bricksApp')
       $location.path('/');
     };
 
-    $scope.remove = function(brick, index) {
-      
-      // Remove brick
-      Client.removeBrick(index);
+    $scope.remove = function(brick) {
 
       SettingsService.deleteBrick(brick)
         .success(function() {
+          // Remove brick
+          Client.removeBrick(brick);
         })
         .error(function() {
           $scope.error = 'Failed to delete bricks';

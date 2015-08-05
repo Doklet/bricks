@@ -15,6 +15,14 @@ angular.module('bricksApp')
       Completed: 2
     };
 
+    // The modes this app
+    var MODES = {
+      // Only view is allowed
+      View: 0,
+      // Allowed to perform edit, launched by the owner
+      Edit: 1
+    };
+
     var _name;
     var _sessionId;
     var _docletId;
@@ -75,8 +83,13 @@ angular.module('bricksApp')
       _bricks.push(this.createRuntimeBrick(brickDTO));
     };
 
-    this.removeBrick = function(index) {
-      _bricks.splice(index, 1);
+    this.removeBrick = function(brickToRemove) {
+      for (var i = 0; i < _bricks.length; i++) {
+        if (brickToRemove.data.id === _bricks[i].data.id) {
+          _bricks.splice(i, 1);
+          return;
+        }
+      }
     };
 
     this.createRuntimeBricks = function(bricksDTO) {
@@ -98,6 +111,7 @@ angular.module('bricksApp')
       var brick = {
         data: brickDTO,
         state: BRICK_STATE.Created,
+        mode: MODES.View,
         content: []
       };
 

@@ -1,11 +1,26 @@
 <nav class="navbar navbar-default navbar-static-top bricks-navbar">
   <div class="container">
-      <ul class="nav navbar-nav pull-right">
-        <li ng-if="mode==MODES.Edit"><a ng-href="#/settings">Settings</a></li>
-        <li><a> </a></li>
-      </ul>
-      <h3 class="text-muted">{{name}}</h3>
-    </div>
+    <ul ng-if="mode === MODES.Edit" class="nav navbar-nav pull-right">
+      <li>
+        <div class="btn-group navbar-btn">
+          <button class="btn btn-success">New brick</button>
+          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li><a href="#/new_text_brick">Text</a></li>
+            <li><a href="#/new_table_brick">Table</a></li>
+            <li><a href="#/new_image_brick">Image</a></li>
+            <li><a href="#/new_chart_brick">Chart</a></li>
+          </ul>
+        </div>
+      </li>
+      <li><a ng-href="#/settings">Settings</a></li>
+      <li>
+        <a>
+        </a>
+      </li>
+    </ul>
+    <h3 class="text-muted">{{name}}</h3>
+  </div>
   </div>
 </nav>
 <div class="alert alert-danger" ng-show="error!=undefined">
@@ -32,49 +47,106 @@
       <div class="col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading">
+            <!-- Buttons -->
             <div class="btn-group btn-group-sm pull-right">
+              <button ng-if="mode === MODES.Edit" type="button" class="btn btn-default" ng-click="edit(brick)">
+                <span class="glyphicon glyphicon-edit"></span>
+              </button>
               <button type="button" class="btn btn-default" ng-click="reloadContent(brick)">
                 <span class="glyphicon glyphicon-refresh"></span>
+              </button>
+              <button ng-if="mode === MODES.Edit" type="button" class="btn btn-default" ng-click="remove(brick)">
+                <span class="glyphicon glyphicon-trash"></span>
               </button>
             </div>
             <h4>{{brick.data.name}}</h4>
             <h4><small>{{brick.data.path}}</small></h4>
           </div>
-          <p class="text-center" ng-if="brick.state == BRICK_STATE.Created">Not Loaded</p>
-          <p class="text-center" ng-if="brick.state == BRICK_STATE.Loading">Loading content, please wait</p>
-          <div ng-if="brick.state == BRICK_STATE.Completed">
+          <!-- In edit mode -->
+          <div ng-if="brick.mode === MODES.Edit">
             <!-- Text Brick-->
-            <textarea ng-if="brick.data.type == BRICK_TYPE.Text" class="myTextArea" rows="20">{{brick.content}}</textarea>
-            <!-- Table Brick-->
-            <div ng-if="brick.data.type == BRICK_TYPE.Table" class="table-responsive">
-              <table class="table table-condensed table-hover">
-                <thead>
-                  <tr>
-                    <td ng-repeat="key in keys(brick.content[0]) | filter:'!$$'"> {{key}} </td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat-start="item in brick.content | filter:searchRows" ng-init="item.$$expanded=false" ng-click="item.$$expanded=!item.$$expanded" ng-class="{ 'active' : item.$$expanded == true }">
-                    <td ng-repeat="key in keys(item) | filter:'!$$'"> {{ item[key] | limitTo : 50 }} </td>
-                  </tr>
-                  <tr ng-repeat-end="" ng-if="item.$$expanded">
-                    <!-- Need to remove the $$ parameters from the length ? -->
-                    <td colspan="{{keys(brick.content[0]).length}}">
-                      <dl class="dl-horizontal">
-                        <div ng-repeat="key in keys(item) | filter:'!$$'">
-                          <dt>{{key}}</dt>
-                          <dd>{{item[key]}}</dd>
-                        </div>
-                      </dl>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="panel-body background-edit">
+              <form class="form-horizontal" role="form">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Type</label>
+                  <div class="col-sm-10">
+                    <h5>{{brick.$type}}</h5>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Name</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" ng-model="brick.$name">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="pathProvider" class="col-sm-2 control-label">File</label>
+                  <div class="col-sm-10">
+                    <div class="input-group">
+                      <input class="form-control" placeholder="Path" ng-model="brick.$path" name="path" type="text" />
+                      <span class="input-group-addon" ng-click="browseFile()">...</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Commands</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" placeholder="Commands" ng-model="brick.$commands" name="commands" type="text" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Description</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" ng-model="brick.$description" placeholder="Enter some description here"></textarea>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10 pull-right">
+                    <button type="submit" class="btn btn-default btn-primary" ng-click="update(brick)">Update</button>
+                    <button type="submit" class="btn btn-default" ng-click="cancel(brick)">Cancel</button>
+                  </div>
+                </div>
+              </form>
             </div>
-            <!-- Image brick -->
-            <img ng-if="brick.data.type == BRICK_TYPE.Image" ng-src="{{imagePathOfBrick(brick)}}" width="100%" height="100%">
-            <!-- Chart brick -->
-            <highchart ng-if="brick.data.type == BRICK_TYPE.Chart" config="brick.content"></highchart>
+          </div>
+          <!-- In view mode -->
+          <div ng-if="brick.mode === MODES.View">
+            <p class="text-center" ng-if="brick.state == BRICK_STATE.Created">Not Loaded</p>
+            <p class="text-center" ng-if="brick.state == BRICK_STATE.Loading">Loading content, please wait</p>
+            <div ng-if="brick.state == BRICK_STATE.Completed">
+              <!-- Text Brick-->
+              <textarea ng-if="brick.data.type == BRICK_TYPE.Text" class="myTextArea" rows="20">{{brick.content}}</textarea>
+              <!-- Table Brick-->
+              <div ng-if="brick.data.type == BRICK_TYPE.Table" class="table-responsive">
+                <table class="table table-condensed table-hover">
+                  <thead>
+                    <tr>
+                      <td ng-repeat="key in keys(brick.content[0]) | filter:'!$$'"> {{key}} </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat-start="item in brick.content | filter:searchRows" ng-init="item.$$expanded=false" ng-click="item.$$expanded=!item.$$expanded" ng-class="{ 'active' : item.$$expanded == true }">
+                      <td ng-repeat="key in keys(item) | filter:'!$$'"> {{ item[key] | limitTo : 50 }} </td>
+                    </tr>
+                    <tr ng-repeat-end="" ng-if="item.$$expanded">
+                      <!-- Need to remove the $$ parameters from the length ? -->
+                      <td colspan="{{keys(brick.content[0]).length}}">
+                        <dl class="dl-horizontal">
+                          <div ng-repeat="key in keys(item) | filter:'!$$'">
+                            <dt>{{key}}</dt>
+                            <dd>{{item[key]}}</dd>
+                          </div>
+                        </dl>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- Image brick -->
+              <img ng-if="brick.data.type == BRICK_TYPE.Image" ng-src="{{imagePathOfBrick(brick)}}" width="100%" height="100%">
+              <!-- Chart brick -->
+              <highchart ng-if="brick.data.type == BRICK_TYPE.Chart" config="brick.content"></highchart>
+            </div>
           </div>
         </div>
       </div>

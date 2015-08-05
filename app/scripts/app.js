@@ -42,6 +42,10 @@ angular.module('bricksApp', [
         templateUrl: 'views/new_chart_brick.html',
         controller: 'NewBrickCtrl'
       })
+    .when('/unauthorized', {
+      templateUrl: 'views/unauthorized.html',
+      controller: 'UnauthorizedCtrl'
+    })
     .otherwise({
       redirectTo: '/'
     });

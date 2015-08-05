@@ -26,7 +26,7 @@ angular.module('bricksApp')
         .success(function(brickDTO) {
           // Create a runtime brick here then add it to the client
           Client.addBrick(brickDTO);
-          $location.path('/settings');
+          $location.path('/');
         })
         .error(function() {
           $scope.error = 'Failed to save brick';
@@ -34,7 +34,7 @@ angular.module('bricksApp')
     };
 
     $scope.cancel = function() {
-      $location.path('/settings');
+      $location.path('/');
     };
 
     $scope.browseFile = function() {
