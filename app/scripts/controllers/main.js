@@ -44,6 +44,10 @@ angular.module('bricksApp')
       type: $scope.BRICK_TYPE.Text,
       description: 'Add a text file'
     }, {
+      name: 'Image file',
+      type: $scope.BRICK_TYPE.Image,
+      description: 'Add a image file'
+    }, {
       name: 'CSV File',
       type: $scope.BRICK_TYPE.Table,
       commands: 'csv',
@@ -242,9 +246,9 @@ angular.module('bricksApp')
 
       // Create a new brick
       var toCreate = {
-          type: template.type,
-          name: 'New ' + template.type,
-          commands: template.commands
+        type: template.type,
+        name: 'New ' + template.type,
+        commands: template.commands
       };
 
       // Save the brick
