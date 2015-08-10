@@ -1,0 +1,16 @@
+<div>
+  <div>
+    <blockquote ng-repeat="comment in comments">
+      <p>{{comment.message}}</p>
+<!--       <footer>{{comment.user}}
+        <cite title="Source Title">{{comment.brick}}</cite>
+      </footer> -->
+    </blockquote>
+  </div>
+  <form class="form-horizontal">
+    <div class="form-group">
+      <textarea class="form-control" rows="3" ng-model="message"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success pull-left" ng-click="comment()">Comment</button>
+  </form>
+</div>

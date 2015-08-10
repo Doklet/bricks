@@ -31,6 +31,11 @@ angular.module('bricksApp')
       Completed: 2
     };
 
+    $scope.RIGHTSIDE_VIEWS = {
+      Templates: 0, 
+      Comments: 1
+    };
+
     // The type of bricks
     $scope.BRICK_TYPE = {
       Text: 'Text',
@@ -58,6 +63,15 @@ angular.module('bricksApp')
     // Default properties
     $scope.name = 'Bricks';
     $scope.mode = $scope.MODES.View;
+    $scope.rightView = $scope.RIGHTSIDE_VIEWS.Templates;
+
+    $scope.showTemplates = function() {
+      $scope.rightView = $scope.RIGHTSIDE_VIEWS.Templates;      
+    };
+
+    $scope.showComments = function() {
+      $scope.rightView = $scope.RIGHTSIDE_VIEWS.Comments;      
+    };
 
     $scope.keys = function(obj) {
       return obj ? Object.keys(obj) : [];

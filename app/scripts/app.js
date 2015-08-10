@@ -46,6 +46,10 @@ angular.module('bricksApp', [
       templateUrl: 'views/unauthorized.html',
       controller: 'UnauthorizedCtrl'
     })
+    .when('/comments', {
+      templateUrl: 'views/comments.html',
+      controller: 'CommentsCtrl'
+    })
     .otherwise({
       redirectTo: '/'
     });

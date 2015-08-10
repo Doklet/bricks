@@ -1,24 +1,9 @@
 <nav class="navbar navbar-default navbar-static-top bricks-navbar">
   <div class="container-fluid">
-<!--     <ul ng-if="mode === MODES.Edit" class="nav navbar-nav pull-right">
-      <li>
-        <div class="btn-group navbar-btn">
-          <button class="btn btn-success">New brick</button>
-          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-          <ul class="dropdown-menu">
-            <li><a href="#/new_text_brick">Text</a></li>
-            <li><a href="#/new_table_brick">Table</a></li>
-            <li><a href="#/new_image_brick">Image</a></li>
-            <li><a href="#/new_chart_brick">Chart</a></li>
-          </ul>
-        </div>
-      </li>
-      <li><a ng-href="#/settings">Settings</a></li>
-      <li>
-        <a>
-        </a>
-      </li>
-    </ul> -->
+    <ul ng-if="mode === MODES.Edit" class="nav nav-pills pull-right">
+      <li role="presentation" ng-click="showTemplates()"><a>Templates</a></li>
+      <li role="presentation" ng-click="showComments()"><a>Comments</a></li>
+    </ul>
     <h3 class="text-muted">{{name}}</h3>
   </div>
 </nav>
@@ -47,7 +32,7 @@
       <div ng-repeat="brick in bricks | orderBy:'data.name'">
         <div class="col-md-6">
           <div class="panel panel-default">
-            <div class="panel-heading">
+            <div class="panel-heading panel-heading-white">
               <!-- Buttons -->
               <div class="btn-group btn-group-sm pull-right">
                 <button ng-if="mode === MODES.Edit" type="button" class="btn btn-default" ng-click="edit(brick)">
@@ -155,8 +140,9 @@
     </div>
   </div>
   <!-- Sidebar -->
-  <div ng-if="mode === MODES.Edit" class="col-md-2">
-    <div class="panel panel-default">
+  <div ng-show="mode === MODES.Edit" class="col-md-2">
+    <!-- Templates view -->
+    <div ng-if="rightView === RIGHTSIDE_VIEWS.Templates" class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Templates</h3>
       </div>
@@ -182,5 +168,7 @@
         </div>
       </div>
     </div>
+    <!-- Comments view -->
+    <comments ng-show="rightView === RIGHTSIDE_VIEWS.Comments"></comments>
   </div>
 </div>
