@@ -1,15 +1,32 @@
 'use strict';
 
 angular.module('bricksApp')
-  .controller('commentsCtrl', function($scope) {
+  .controller('commentsCtrl', function($scope, Client, CommentService) {
 
     $scope.message = undefined;
+    $scope.comments = undefined;
 
-    $scope.comments = [];
+    $scope.init = function() {
 
-    $scope.comment = function() {
+      if ($scope.comments !== undefined) {
+        return;
+      }
 
-      var com = {
+      CommentService.getAll()
+        .success(function(comments) {
+          Client.setComments(comments);
+          $scope.comments = Client.getComments();
+        })
+        .error(function() {
+          $scope.error = 'Failed to fetch comment';
+        });
+    };
+
+    $scope.init();
+
+    $scope.newComment = function() {
+
+      var comment = {
         user: 'Adam',
         brick: 'MyBrick',
         created: '2015-10-12',
@@ -18,7 +35,15 @@ angular.module('bricksApp')
 
       $scope.message = undefined;
 
-      $scope.comments.push(com);
+      CommentService.save(comment)
+        .success(function(created) {
+
+          Client.addComment(created);
+
+        })
+        .error(function() {
+          $scope.error = 'Failed to save comment';
+        });
     };
 
   });

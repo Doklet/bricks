@@ -27,6 +27,7 @@ angular.module('bricksApp')
     var _sessionId;
     var _docletId;
     var _bricks;
+    var _comments;
 
     this.reset = function() {
       _sessionId = undefined;
@@ -116,6 +117,18 @@ angular.module('bricksApp')
       };
 
       return brick;
+    };
+
+    this.getComments = function() {
+      return _comments;
+    };
+
+    this.setComments = function(comments) {
+      _comments = comments;
+    };
+
+    this.addComment = function(comment) {
+      _comments.push(comment);
     };
 
   });
