@@ -1,8 +1,8 @@
 <nav class="navbar navbar-default navbar-static-top bricks-navbar">
   <div class="container-fluid">
     <ul class="nav nav-pills pull-right">
-      <li ng-if="mode === MODES.Edit" role="presentation" ng-click="showTemplates()"><a>Templates</a></li>
-      <li role="presentation" ng-click="showComments()"><a>Comments</a></li>
+      <li  ng-class="{active: rightView===RIGHTSIDE_VIEWS.Templates}" ng-if="mode === MODES.Edit" role="presentation" ng-click="showTemplates()"><a>Templates</a></li>
+      <li ng-class="{active: rightView===RIGHTSIDE_VIEWS.Comments}" role="presentation" ng-click="showComments()"><a>Comments</a></li>
     </ul>
     <h3 class="text-muted">{{name}}</h3>
   </div>

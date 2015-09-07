@@ -27,7 +27,7 @@ angular.module('bricksApp')
     $scope.init();
 
     $scope.canDelete = function() {
-      return Client.getSession() !== undefined;
+      return Client.getSessionId() !== undefined;
     };
 
     $scope.newComment = function(msg) {
