@@ -3,7 +3,6 @@
 angular.module('bricksApp')
   .controller('commentsCtrl', function($scope, Client, CommentService) {
 
-    $scope.message = undefined;
     $scope.comments = undefined;
 
     $scope.init = function() {
@@ -13,7 +12,10 @@ angular.module('bricksApp')
       }
 
       CommentService.getAll()
-        .success(function(comments) {
+        .success(function(mapcomments) {
+
+          var comments = $scope.values(mapcomments);
+
           Client.setComments(comments);
           $scope.comments = Client.getComments();
         })
@@ -24,16 +26,21 @@ angular.module('bricksApp')
 
     $scope.init();
 
-    $scope.newComment = function() {
+    $scope.canDelete = function() {
+      return Client.getSession() !== undefined;
+    };
+
+    $scope.newComment = function(msg) {
+
+      var d = new Date();
 
       var comment = {
-        user: 'Adam',
-        brick: 'MyBrick',
-        created: '2015-10-12',
-        message: $scope.message
+        user: Client.getUser(),
+        created: d.getTime(),
+        message: msg
       };
 
-      $scope.message = undefined;
+      $scope.msg = undefined;
 
       CommentService.save(comment)
         .success(function(created) {
@@ -44,6 +51,41 @@ angular.module('bricksApp')
         .error(function() {
           $scope.error = 'Failed to save comment';
         });
+
+    };
+
+    $scope.deleteComment = function(comment) {
+
+      CommentService.delete(comment)
+        .success(function(deleted) {
+
+          Client.deleteComment(deleted);
+
+        })
+        .error(function() {
+          $scope.error = 'Failed to delete comment';
+        });
+    };
+
+    $scope.hasUser = function() {
+      return Client.getUser() !== undefined;
+    };
+
+    // TODO move these to a util class, duplicated from main
+    $scope.keys = function(obj) {
+      return obj ? Object.keys(obj) : [];
+    };
+
+    $scope.values = function(obj) {
+      var values = [];
+      var keys = $scope.keys(obj);
+
+      for (var i = 0; i < keys.length; i++) {
+        var key = keys[i];
+        values.push(obj[key]);
+      }
+
+      return values;
     };
 
   });

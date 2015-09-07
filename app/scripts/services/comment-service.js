@@ -22,11 +22,11 @@ angular.module('bricksApp')
       return $http.put('/api/doclet/' + docletId + '/bucket/comment/' + comment.id, comment);
     };
 
-    this.delete = function(brick) {
+    this.delete = function(comment) {
 
       var docletId = Client.getDocletId();
 
-      var id = brick.data.id;
+      var id = comment.id;
 
       return $http.delete('/api/doclet/' + docletId + '/bucket/comment/' + id);
     };

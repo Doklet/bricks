@@ -24,6 +24,7 @@ angular.module('bricksApp')
     };
 
     var _name;
+    var _user;
     var _sessionId;
     var _docletId;
     var _bricks;
@@ -42,6 +43,14 @@ angular.module('bricksApp')
 
     this.getName = function() {
       return _name;
+    };
+
+    this.setUser = function(user) {
+      _user = user;
+    };
+
+    this.getUser = function() {
+      return _user;
     };
 
     this.setSessionId = function(sessionId) {
@@ -77,7 +86,7 @@ angular.module('bricksApp')
     };
 
     this.addBrick = function(brickDTO) {
-      var brick =  this.createRuntimeBrick(brickDTO);
+      var brick = this.createRuntimeBrick(brickDTO);
 
       _bricks.push(brick);
 
@@ -124,11 +133,24 @@ angular.module('bricksApp')
     };
 
     this.setComments = function(comments) {
-      _comments = comments;
+      if (comments !== undefined) {
+        _comments = comments;
+      }
     };
 
     this.addComment = function(comment) {
       _comments.push(comment);
+    };
+
+    this.deleteComment = function(comment) {
+
+      for (var i = 0; i < _comments.length; i++) {
+        var com = _comments[i];
+
+        if (com.id === comment.id) {
+          _comments.splice(i, 1);
+        }
+      }
     };
 
   });

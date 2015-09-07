@@ -1,16 +1,20 @@
 <div>
   <div>
-    <blockquote ng-repeat="comment in comments">
-      <p>{{comment.message}}</p>
-<!--       <footer>{{comment.user}}
-        <cite title="Source Title">{{comment.brick}}</cite>
-      </footer> -->
-    </blockquote>
-  </div>
-  <form class="form-horizontal">
-    <div class="form-group">
-      <textarea class="form-control" rows="3" ng-model="message"></textarea>
+    <div ng-repeat="comment in comments | orderBy:'created'">
+      <h5>{{comment.user}} <small>{{comment.created | date:'yyyy-MM-dd HH:mm'}} </small> 
+        <span class="pull-right" ng-if="canDelete()">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default btn-xs" ng-click="deleteComment(comment)">delete</button>
+          </div>
+        </span>
+      </h5>
+      <p>{{comment.message}}
     </div>
-    <button type="submit" class="btn btn-success pull-left" ng-click="newComment()">Comment</button>
+  </div>
+  <form ng-if="hasUser()" class="form-horizontal">
+    <div class="form-group">
+      <textarea class="form-control" rows="3" ng-model="msg"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success pull-left" ng-click="newComment(msg)">Comment</button>
   </form>
 </div>

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-static-top bricks-navbar">
   <div class="container-fluid">
-    <ul ng-if="mode === MODES.Edit" class="nav nav-pills pull-right">
-      <li role="presentation" ng-click="showTemplates()"><a>Templates</a></li>
+    <ul class="nav nav-pills pull-right">
+      <li ng-if="mode === MODES.Edit" role="presentation" ng-click="showTemplates()"><a>Templates</a></li>
       <li role="presentation" ng-click="showComments()"><a>Comments</a></li>
     </ul>
     <h3 class="text-muted">{{name}}</h3>
@@ -29,8 +29,8 @@
       </div>
     </div>
     <div class="row" ng-if="state == SETTINGS_STATE.Completed">
-      <div ng-repeat="brick in bricks | orderBy:'data.name'">
-        <div class="col-md-6">
+      <div ng-repeat="brick in bricks | orderBy:'data.id'">
+        <div class="{{sizeOf(brick)}}">
           <div class="panel panel-default">
             <div class="panel-heading panel-heading-white">
               <!-- Buttons -->
@@ -140,7 +140,7 @@
     </div>
   </div>
   <!-- Sidebar -->
-  <div ng-show="mode === MODES.Edit" class="col-md-2">
+  <div class="col-md-2">
     <!-- Templates view -->
     <div ng-if="rightView === RIGHTSIDE_VIEWS.Templates" class="panel panel-default">
       <div class="panel-heading">

@@ -32,7 +32,7 @@ angular.module('bricksApp')
     };
 
     $scope.RIGHTSIDE_VIEWS = {
-      Templates: 0, 
+      Templates: 0,
       Comments: 1
     };
 
@@ -63,14 +63,14 @@ angular.module('bricksApp')
     // Default properties
     $scope.name = 'Bricks';
     $scope.mode = $scope.MODES.View;
-    $scope.rightView = $scope.RIGHTSIDE_VIEWS.Templates;
+    $scope.rightView = $scope.RIGHTSIDE_VIEWS.Comments;
 
     $scope.showTemplates = function() {
-      $scope.rightView = $scope.RIGHTSIDE_VIEWS.Templates;      
+      $scope.rightView = $scope.RIGHTSIDE_VIEWS.Templates;
     };
 
     $scope.showComments = function() {
-      $scope.rightView = $scope.RIGHTSIDE_VIEWS.Comments;      
+      $scope.rightView = $scope.RIGHTSIDE_VIEWS.Comments;
     };
 
     $scope.keys = function(obj) {
@@ -104,6 +104,7 @@ angular.module('bricksApp')
 
       // If there is a session set in edit mode
       if (Client.getSessionId() !== undefined) {
+        $scope.rightView = $scope.RIGHTSIDE_VIEWS.Templates;
         $scope.mode = $scope.MODES.Edit;
       }
 
@@ -112,6 +113,11 @@ angular.module('bricksApp')
         Client.setName(docletName);
       }
       $scope.name = Client.getName();
+
+      var user = $location.search().user;
+      if (user !== undefined) {
+        Client.setUser(user);
+      }
 
 
       if (!Client.hasBricks()) {
@@ -201,12 +207,28 @@ angular.module('bricksApp')
       return '/api/file/' + brick.data.path;
     };
 
+    $scope.sizeOf = function(brick) {
+      switch (brick.data.size) {
+        case 0.25:
+          return 'col-md-3';
+        case 0.5:
+          return 'col-md-6';
+        case 0.75:
+          return 'col-md-9';
+        case 1:
+          return 'col-md-12';
+        default:
+          return 'col-md-12';
+      }
+    };
+
     $scope.edit = function(brick) {
       brick.mode = $scope.MODES.Edit;
 
       $scope.editingBrick = brick;
 
       brick.$type = brick.data.type;
+      brick.$size = brick.data.size;
       brick.$name = brick.data.name;
       brick.$path = brick.data.path;
       brick.$commands = brick.data.commands;
@@ -219,6 +241,7 @@ angular.module('bricksApp')
       $scope.editingBrick = undefined;
 
       brick.$type = undefined;
+      brick.$size = undefined;
       brick.$name = undefined;
       brick.$path = undefined;
       brick.$commands = undefined;
@@ -231,6 +254,7 @@ angular.module('bricksApp')
       $scope.editingBrick = undefined;
 
       brick.data.name = brick.$name;
+      brick.data.size = brick.$size;
       brick.data.path = brick.$path;
       brick.data.description = brick.$description;
       brick.data.commands = brick.$commands;
@@ -261,6 +285,7 @@ angular.module('bricksApp')
       // Create a new brick
       var toCreate = {
         type: template.type,
+        size: 1,
         name: 'New ' + template.type,
         commands: template.commands
       };
