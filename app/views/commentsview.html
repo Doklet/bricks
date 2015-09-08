@@ -13,8 +13,8 @@
   </div>
   <form ng-if="hasUser()" class="form-horizontal">
     <div class="form-group">
-      <textarea class="form-control" rows="3" ng-model="msg"></textarea>
+      <textarea class="form-control" rows="3" ng-model="comment.msg"></textarea>
     </div>
-    <button type="submit" class="btn btn-success pull-left" ng-click="newComment(msg)">Comment</button>
+    <button type="submit" class="btn btn-success pull-left" ng-click="newComment()">Comment</button>
   </form>
 </div>

@@ -3,6 +3,7 @@
 angular.module('bricksApp')
   .controller('commentsCtrl', function($scope, Client, CommentService) {
 
+    $scope.comment = {};
     $scope.comments = undefined;
 
     $scope.init = function() {
@@ -30,17 +31,17 @@ angular.module('bricksApp')
       return Client.getSessionId() !== undefined;
     };
 
-    $scope.newComment = function(msg) {
+    $scope.newComment = function() {
 
       var d = new Date();
 
       var comment = {
         user: Client.getUser(),
         created: d.getTime(),
-        message: msg
+        message: $scope.comment.msg
       };
 
-      $scope.msg = undefined;
+      $scope.comment = {};
 
       CommentService.save(comment)
         .success(function(created) {

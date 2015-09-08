@@ -44,6 +44,14 @@ angular.module('bricksApp')
       Chart: 'Chart'
     };
 
+    $scope.TEXT_VIEWS = [{
+      id: 'plain',
+      name: 'Plain'
+    }, {
+      id: 'code',
+      name: 'Code'
+    }];
+
     $scope.BRICK_TEMPLATES = [{
       name: 'Text file',
       type: $scope.BRICK_TYPE.Text,
@@ -222,6 +230,21 @@ angular.module('bricksApp')
       }
     };
 
+    $scope.isPlainText = function(brick) {
+      if (brick.data.type === $scope.BRICK_TYPE.Text && 
+          (brick.data.textview === undefined || brick.data.textview === $scope.TEXT_VIEWS[0].id)) {
+        return true;
+      }
+      return false;
+    };
+
+    $scope.isCodeText = function(brick) {
+      if (brick.data.type === $scope.BRICK_TYPE.Text && brick.textview === $scope.TEXT_VIEWS[1].id) {
+        return true;
+      }
+      return false;
+    };
+
     $scope.edit = function(brick) {
       brick.mode = $scope.MODES.Edit;
 
@@ -229,6 +252,7 @@ angular.module('bricksApp')
 
       brick.$type = brick.data.type;
       brick.$size = brick.data.size;
+      brick.$textview = brick.data.textview;
       brick.$name = brick.data.name;
       brick.$path = brick.data.path;
       brick.$commands = brick.data.commands;
@@ -242,6 +266,7 @@ angular.module('bricksApp')
 
       brick.$type = undefined;
       brick.$size = undefined;
+      brick.$textview = undefined;
       brick.$name = undefined;
       brick.$path = undefined;
       brick.$commands = undefined;
@@ -255,6 +280,7 @@ angular.module('bricksApp')
 
       brick.data.name = brick.$name;
       brick.data.size = brick.$size;
+      brick.data.textview = brick.$textview;
       brick.data.path = brick.$path;
       brick.data.description = brick.$description;
       brick.data.commands = brick.$commands;
