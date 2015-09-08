@@ -10,8 +10,7 @@ angular.module('bricksApp', [
     'apiMock',
     'angularModalService',
     'highcharts-ng',
-    'uuid',
-    'hljs'
+    'uuid'
   ])
   .config(function($routeProvider) {
     $routeProvider

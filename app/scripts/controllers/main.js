@@ -230,21 +230,6 @@ angular.module('bricksApp')
       }
     };
 
-    $scope.isPlainText = function(brick) {
-      if (brick.data.type === $scope.BRICK_TYPE.Text && 
-          (brick.data.textview === undefined || brick.data.textview === $scope.TEXT_VIEWS[0].id)) {
-        return true;
-      }
-      return false;
-    };
-
-    $scope.isCodeText = function(brick) {
-      if (brick.data.type === $scope.BRICK_TYPE.Text && brick.textview === $scope.TEXT_VIEWS[1].id) {
-        return true;
-      }
-      return false;
-    };
-
     $scope.edit = function(brick) {
       brick.mode = $scope.MODES.Edit;
 

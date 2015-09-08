@@ -109,8 +109,7 @@
               <p class="text-center" ng-if="brick.state == BRICK_STATE.Loading">Loading content, please wait</p>
               <div ng-if="brick.state == BRICK_STATE.Completed">
                 <!-- Text Brick-->
-                <div ng-show="isCodeText(brick)" hljs source="brick.content"></div>
-                <textarea ng-show="isPlainText(brick)" class="myTextArea" rows="20">{{brick.content}}</textarea>
+                <textarea ng-if="brick.data.type == BRICK_TYPE.Text" class="myTextArea" rows="20">{{brick.content}}</textarea>
                 <!-- Table Brick-->
                 <div ng-if="brick.data.type == BRICK_TYPE.Table" class="table-responsive">
                   <table class="table table-condensed table-hover">
