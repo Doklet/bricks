@@ -1,9 +1,20 @@
 <nav class="navbar navbar-default navbar-static-top bricks-navbar">
   <div class="container-fluid">
-    <ul class="nav nav-pills pull-right">
+    <form class="navbar-form navbar-right" role="search">
+      <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          ...
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <li ng-click="showTemplates()"><a>Templates</a></li>
+          <li ng-click="showComments()"><a>Comments</a></li>
+        </ul>
+      </div>
+    </form>
+    <!--     <ul class="nav nav-pills pull-right">
       <li  ng-class="{active: rightView===RIGHTSIDE_VIEWS.Templates}" ng-if="mode === MODES.Edit" role="presentation" ng-click="showTemplates()"><a>Templates</a></li>
       <li ng-class="{active: rightView===RIGHTSIDE_VIEWS.Comments}" role="presentation" ng-click="showComments()"><a>Comments</a></li>
-    </ul>
+    </ul> -->
     <h3 class="text-muted">{{name}}</h3>
   </div>
 </nav>
@@ -16,20 +27,22 @@
   <!-- Content -->
   <div class="col-md-10">
     <div class="row" ng-if="state == SETTINGS_STATE.Loading">
-      <p>Loading</p>
-    </div>
-    <div class="row" ng-if="state == SETTINGS_STATE.NoBricksAvailable">
       <div class="jumbotron text-center">
         <div class="container">
-          <h1>Welcome</h1>
-          <p>Here the brick of your content will be shown</p>
-          <p>Head over to settings to create the bricks you want</p>
-          <p><a ng-href="#/settings" class="btn btn-primary" role="button">Go To Settings &raquo;</a></p>
+          <h5>Loading</h5>
         </div>
       </div>
     </div>
     <div class="row" ng-if="state == SETTINGS_STATE.Completed">
-      <div ng-repeat="brick in bricks | orderBy:'data.id'">
+      <div ng-if="bricks.length === 0">
+        <div class="container">
+          <div class="text-center">
+            <h3>No bricks to display</h3>
+            <p>Add bricks by using the templates to the right</p>
+          </div>
+        </div>
+      </div>
+      <div ng-repeat="brick in bricks | orderBy:'-data.id'">
         <div class="{{sizeOf(brick)}}">
           <div class="panel panel-default">
             <div class="panel-heading panel-heading-white">
